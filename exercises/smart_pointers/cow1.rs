@@ -12,8 +12,6 @@
 //
 // Execute `rustlings hint cow1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 use std::borrow::Cow;
 
 fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
@@ -37,8 +35,10 @@ mod tests {
         let slice = [-1, 0, 1];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            Cow::Owned(_) => Ok(()),
-            _ => Err("Expected owned value"),
+            Cow::Owned(vec) => Ok(
+                assert_eq!(vec[..], [1, 0, 1])
+            ),
+            _ => return Err("Expected Owned"),
         }
     }
 
@@ -48,7 +48,10 @@ mod tests {
         let slice = [0, 1, 2];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Borrowed(slice) => Ok(
+                assert_eq!(*slice, [0, 1, 2])
+            ),
+            _ => return Err("Expected Borrowed"),
         }
     }
 
@@ -61,6 +64,10 @@ mod tests {
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
             // TODO
+            Cow::Owned(vec) => Ok(
+                assert_eq!(vec[..], [0, 1, 2])
+            ),
+            _ => return Err("Expected Owned"),
         }
     }
 
@@ -73,6 +80,10 @@ mod tests {
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
             // TODO
+            Cow::Owned(vec) => Ok(
+                assert_eq!(vec[..], [1, 0, 1])
+            ),
+            _ => return Err("Expected Owned"),
         }
     }
 }
